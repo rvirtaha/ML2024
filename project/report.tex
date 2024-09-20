@@ -29,7 +29,8 @@ Each image only depicts one ball. The data is therefore categorical with 16 diff
 
 We have cropped and resized the images to 64 by 64 pixels. We have also scaled the color 8-bit color channels, whose values range from 0 to 256, 
 to floating-point values between 0 and 1. After preprocessing the image dataset, each image will constitute a $3\times 4096$ feature matrix of floating-point values. 
-A machine learning model, specifically SVC, is trained using this labeled dataset, constituting a supervised machine learning task, with the goal of accurately predicting the labels of input images. 
+A machine learning model, specifically a SVM classifier, is trained using this labeled dataset. This means we have a supervised machine learning task, with the goal of accurately 
+predicting the labels of input images. 
 
 \section{Method}
 \label{sec:method}
@@ -44,7 +45,7 @@ with a bit depth of 24. The dataset was split into training, validation and test
 validation dataset 80 images and test dataset 160 images, corresponding roughly to a 75-8-17 split. We chose this split to have most of the data 
 be used in training, while setting aside separate datasets for validation to prevent overfitting, and testing to evaluate the final 
 performance of the model. The reasoning for a commonly used 75-10-15 split is explained in \cite{josephOptimalRatioData2022}. The training, 
-validation and test datasets were randomly separated using scikit-lean's train\_test\_split-function.
+validation and test datasets were randomly separated using scikit-learn's train\_test\_split-function.
 
 \subsection{Data Preprocessing and Feature Selection}
 \label{sec:data_preprocessing}
