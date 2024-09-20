@@ -43,7 +43,8 @@ We took 60 photos of each of the 16 balls from various angles, resulting in 960 
 with a bit depth of 24. The dataset was split into training, validation and test datasets. The final training dataset had 720 images, 
 validation dataset 80 images and test dataset 160 images, corresponding roughly to a 75-8-17 split. We chose this split to have most of the data 
 be used in training, while setting aside separate datasets for validation to prevent overfitting, and testing to evaluate the final 
-performance of the model. \cite{josephOptimalRatioData2022} The training, validation and test datasets were randomly separated using scikit-lean's train\_test\_split-function.
+performance of the model. The reasoning for a commonly used 75-10-15 split is explained in \cite{josephOptimalRatioData2022}. The training, 
+validation and test datasets were randomly separated using scikit-lean's train\_test\_split-function.
 
 \subsection{Data Preprocessing and Feature Selection}
 \label{sec:data_preprocessing}
@@ -51,11 +52,12 @@ Our initial dataset consists of unnecessarily large RGB images. Our preprocessin
 and scaling the 8-bit integer RGB values down to a single floating-point number between 0 and 1. This is done to reduce the size of inputs to the model 
 from an integer matrix of size $3\times(3552^2)$, to a more manageable $3\times 4096$ floating-point values. The color value scaling was done because machine
 learning methods generally work better with small input values. \cite{ImportanceFeatureScaling}. Now each feature is a 3 by 4096 matrix of floating-point
-numbers between 0 and 1. The features are labeled with a number between 0 and 15, representing the ground truth, which is the number of the billiards ball in the image.
+numbers between 0 and 1. The dimensions of the matrix represent the red, green and blue color channels of the image. The features are labeled with a number 
+between 0 and 15, representing the ground truth, which is the number of the billiards ball in the image. The cue ball is number 0.
 
 \subsection{Data Augmentation}
 \label{sec:data_augmentation}
-Since our initial dataset is somewhat small for a machine vision application, we have extended it using dataset augmentation to increase the quantity 
+Since our initial dataset is somewhat small, we have extended it using dataset augmentation to increase the quantity 
 and diversity of the training set. We have augmented the training dataset by applying random rotations, 
 image flips and brightness adjustments to the preprocessed training dataset images. The augmentation was performed using keras' layers utility.
 
@@ -65,7 +67,7 @@ For this task of recognizing billiard balls from images, we have selected the Su
 SVC is ideal for handling high-dimensional data, like images, by finding a hyperplane that maximises the margin between different classes. In this case, 
 the classes are different billiard balls. SVC works by identifying the optimal weight vector and bias term to separate these classes. If the data isn't 
 linearly separable, kernel functions such as the Radial Basis Function (RBF) can be used to map the data to a higher-dimensional space, allowing more 
-accurate classification. \cite{nobleWhatSupportVector2006}
+accurate classification. \cite{unknownMachineLearningApproach2023, nobleWhatSupportVector2006}
 
 \begin{equation}
     h(x)=sign(wx+b)
@@ -76,24 +78,24 @@ when it is less than 0.
 
 SVC was chosen because of its ability to efficiently manage image-based tasks with numerous pixel features, and its effectiveness in separating 
 classes through margin maximization. It's also robust against overfitting and performs well with smaller datasets like the couple thousand images 
-used in this project, making it a practical and reliable choice. \cite{nobleWhatSupportVector2006}
+used in this project, making it a practical and reliable choice. \cite{unknownMachineLearningApproach2023, nobleWhatSupportVector2006}
 
 \subsection{Loss Function}
 \label{sec:loss_function}
 For this project, we have selected the hinge loss function as our initial loss function, which is commonly used with Support Vector Machines (SVMs). 
 Hinge loss encourages the model to maximize the margin between different classes, penalizing predictions that fall too close to the decision boundary 
 or are misclassified. This ensures that the SVC model not only classifies the billiard balls correctly but does so with confidence, 
-reducing the likelihood of errors. \cite{bartlettClassificationRejectOption2008}
+reducing the likelihood of errors. \cite{unknownMachineLearningApproach2023, bartlettClassificationRejectOption2008}
 
 \begin{equation}
     L(y, f(x)) = max(0, 1-y \cdot f(x))
 \end{equation}
 
-Here, $y$ denotes the actual class label (+1 or -1), while $f(x)$ refers to the classifier's decision function for the given data point xxx.
+Here, $y$ denotes the actual class label (+1 or -1), while $f(x)$ refers to the classifier's decision function for the given data point $x$.
 
 Hinge loss is computationally efficient and aligns perfectly with SVC's margin-maximizing objective, making it an ideal choice. By penalizing 
 near-boundary predictions, hinge loss ensures that the model maintains clear and accurate boundaries between billiard ball classes, improving 
-overall classification performance. \cite{bartlettClassificationRejectOption2008}
+overall classification performance. \cite{unknownMachineLearningApproach2023, bartlettClassificationRejectOption2008}
 
 \pagebreak
 \section{Aknowledgements}
